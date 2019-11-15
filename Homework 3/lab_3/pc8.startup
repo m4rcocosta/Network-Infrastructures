@@ -1,0 +1,6 @@
+/etc/init.d/networking restart
+
+echo "Trying to configure openvpn..."
+openvpn --config /root/server.conf --daemon
+
+/etc/init.d/apache2 restart

@@ -1,0 +1,9 @@
+/etc/init.d/networking restart
+
+echo "Waiting for s1 and s2..."
+while [ ! ping -c 1 192.168.1.5 &> /dev/null -a ! ping -c 1 192.168.2.5 &> /dev/null ]
+do
+	sleep 2
+done
+
+/etc/init.d/bind start

@@ -1,0 +1,7 @@
+pc1: r6
+pc2: pc1
+pc3: pc2
+
+pc5: r7
+pc6: pc5
+pc7: pc6

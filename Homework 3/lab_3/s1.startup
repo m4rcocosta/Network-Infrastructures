@@ -1,0 +1,28 @@
+/etc/init.d/networking restart
+/etc/init.d/ssh restart
+
+echo "1.0.1.8	r1" > /etc/hosts
+echo "1.0.1.3	r2" >> /etc/hosts
+echo "1.0.1.6	r3" >> /etc/hosts
+echo "1.0.1.18	r4" >> /etc/hosts
+echo "1.0.1.17	r5" >> /etc/hosts
+echo "192.168.1.1	r6" >> /etc/hosts
+echo "20.0.1.3	r7" >> /etc/hosts
+
+echo -e '\n\n\n' | ssh-keygen
+pwd
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa1.pub
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa2.pub
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa3.pub
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa4.pub
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa5.pub
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa6.pub
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa7.pub
+
+echo "Waiting for dhcp configuration..."
+while ! ping -c 1 192.168.1.8 &> /dev/null
+do
+	sleep 2
+done
+
+/etc/init.d/bind start

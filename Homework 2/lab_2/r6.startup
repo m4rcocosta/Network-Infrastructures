@@ -1,0 +1,33 @@
+/etc/init.d/networking restart
+/etc/init.d/quagga restart
+/etc/init.d/ssh restart
+
+ip link set eth0 up
+ip addr add 1.0.1.19/31 dev eth0
+
+echo "Creating homework_user..."
+mkdir /home/homework_user
+useradd homework_user -d /home/homework_user
+chown homework_user:homework_user /home/homework_user
+echo -e 'user\nuser\n' | passwd homework_user
+echo "homework_user created!"
+echo "Generating keys..."
+mkdir /home/homework_user/.ssh
+chown homework_user:homework_user /home/homework_user/.ssh
+chmod 700 /home/homework_user/.ssh
+touch /home/homework_user/.ssh/authorized_keys
+chown homework_user:homework_user /home/homework_user/.ssh/authorized_keys
+chmod 600 /home/homework_user/.ssh/authorized_keys
+while [ ! -e /hostlab/id_rsa6.pub ]
+do
+	sleep 1
+done
+cat /hostlab/id_rsa6.pub > /home/homework_user/.ssh/authorized_keys
+rm /hostlab/id_rsa6.pub
+echo "Keys generated!"
+
+echo "Adding firewall..."
+iptables -A FORWARD -p tcp --dport 22 -d 10.0.0.100 -j ACCEPT
+iptables -A FORWARD -p tcp --sport 22 -d 10.0.0.100 -j ACCEPT
+iptables -A FORWARD -p tcp -d 10.0.0.100 -j DROP
+echo "Firewall added!"

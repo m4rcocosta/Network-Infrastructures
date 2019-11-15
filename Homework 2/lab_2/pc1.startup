@@ -1,0 +1,16 @@
+/etc/init.d/networking restart
+
+echo "10.0.0.100	s2" > /etc/hosts
+echo -e '\n\n\n' | ssh-keygen
+pwd
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsaS2.pub
+
+echo "Waiting for s2..."
+while ! ping -c 1 -W 1 s2 &> /dev/null
+do
+	sleep 2
+done
+
+echo "Setting up the local forward..."
+ssh -o StrictHostKeyChecking=no -NL 9000:127.0.0.1:8000 homework_user@s2 &
+echo "Local forward setted!"

@@ -1,0 +1,18 @@
+$ORIGIN paris.exam.edu.
+$TTL 2d
+@ IN SOA ns.paris.exam.edu. hostmaster.paris.exam.edu. (
+        20171212;
+        28;
+        14;
+        3600000;
+        0;
+)
+
+@	IN	NS	ns
+ns	IN	A	192.168.2.5
+pc5	IN	A	192.168.2.6
+pc6	IN	A	192.168.2.7
+pc7	IN	A	192.168.2.8
+pc8	IN	A	192.168.2.4
+r7	IN	A	20.0.1.3
+s2	IN	A	192.168.2.5

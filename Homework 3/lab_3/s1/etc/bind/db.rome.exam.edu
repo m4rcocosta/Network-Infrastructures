@@ -1,0 +1,18 @@
+$ORIGIN rome.exam.edu.
+$TTL 2d
+@ IN SOA ns.rome.exam.edu. hostmaster.rome.exam.edu. (
+        20171212;
+        28;
+        14;
+        3600000;
+        0;
+)
+
+@	IN	NS	ns
+ns	IN	A	192.168.1.5
+pc1	IN	A	192.168.1.6
+pc2	IN	A	192.168.1.7
+pc3	IN	A	192.168.1.8
+pc4	IN	A	192.168.1.4
+r6	IN	A	192.168.1.1
+s1	IN	A	192.168.1.5

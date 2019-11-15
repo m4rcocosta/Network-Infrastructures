@@ -1,0 +1,9 @@
+/etc/init.d/networking restart
+
+echo "Waiting for dhcp configuration..."
+while ! ping -c 1 192.168.2.8 &> /dev/null
+do
+	sleep 2
+done
+
+/etc/init.d/bind start

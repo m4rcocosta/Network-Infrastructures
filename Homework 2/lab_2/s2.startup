@@ -1,0 +1,55 @@
+/etc/init.d/networking restart
+/etc/init.d/ssh restart
+
+echo "1.0.1.8	r1" > /etc/hosts
+echo "1.0.1.3	r2" >> /etc/hosts
+echo "1.0.1.6	r3" >> /etc/hosts
+echo "1.0.1.18	r4" >> /etc/hosts
+echo "1.0.1.17	r5" >> /etc/hosts
+echo "10.0.0.1	r6" >> /etc/hosts
+echo "1.0.1.21	r7" >> /etc/hosts
+echo "20.0.1.3	r8" >> /etc/hosts
+echo "20.0.1.5	r9" >> /etc/hosts
+
+echo -e '\n\n\n' | ssh-keygen
+pwd
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa1.pub
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa2.pub
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa3.pub
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa4.pub
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa5.pub
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa6.pub
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa7.pub
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa8.pub
+cp /root/.ssh/id_rsa.pub /hostlab/id_rsa9.pub
+
+echo "Creating homework_user..."
+mkdir /home/homework_user
+useradd homework_user -d /home/homework_user
+chown homework_user:homework_user /home/homework_user
+echo -e 'user\nuser\n' | passwd homework_user
+echo "homework_user created!"
+echo "Generating keys..."
+mkdir /home/homework_user/.ssh
+chown homework_user:homework_user /home/homework_user/.ssh
+chmod 700 /home/homework_user/.ssh
+touch /home/homework_user/.ssh/authorized_keys
+chown homework_user:homework_user /home/homework_user/.ssh/authorized_keys
+chmod 600 /home/homework_user/.ssh/authorized_keys
+while [ ! -e /hostlab/id_rsaS2.pub ]
+do
+	sleep 1
+done
+cat /hostlab/id_rsaS2.pub > /home/homework_user/.ssh/authorized_keys
+rm /hostlab/id_rsaS2.pub
+echo "Keys generated!"
+
+echo "Waiting for r4..."
+while ! ping -c 1 -W 1 r4 &> /dev/null
+do
+	sleep 2
+done
+
+echo "Setting up the remote forward..."
+ssh -o StrictHostKeyChecking=no -NR 8000:127.0.0.1:9000 homework_user@r4 &
+echo "Remote forward setted!"
